@@ -1,0 +1,124 @@
+﻿@model IEnumerable<EmployeeManagementSystem.Dtos.EmployeeReadDto>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Employees</h1>
+
+<p>
+    <a class="btn btn-primary" href="/employees/create">Create New</a>
+</p>
+<table id="employeeList" class="table table-striped table-bordered dt-responsive nowrap" width="100%" cellspacing="0">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Dob)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Department)
+            </th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        @*@foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Dob)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Department)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CreatedAt)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UpdatedAt)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IsDeleted)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }*@
+    </tbody>
+</table>
+
+
+<script>
+    $('#employeeList').DataTable({
+        "processing": true,
+        "serverSide": false,
+        "filter": true,
+        "orderMulti": false,
+        "ajax": {
+            "url": "/api/employees",
+            "type": "GET",
+            "datatype": "json"
+        },
+        "columns": [
+            { "data": "name", "name": "Name", "autoWidth": true },
+            { "data": "email", "name": "Email", "autoWidth": true },
+            { "data": "dob", "name": "Dob", "autoWidth": true },
+            { "data": "department", "name": "Department", "autoWidth": true },
+            {
+                "render": function (data, type, full, meta) { return '<a class="btn btn-info" href="/Employees/Edit/' + full.id + '">Edit</a>'; }
+            },
+            {
+                "render": function (data, type, full, meta) { return '<a class="btn btn-danger" onclick="deleteEmployee(this)" data-id="' + full.id + '">Delete</a>'; }
+            },
+        ]
+    });
+    function deleteEmployee(data) {
+        var userId = $(data).attr("data-id");
+        swal({
+            title: "Are you sure?",
+            text: "Once deleted, you will not be able to recover the data!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+                    $.ajax({
+                        type: "DELETE",
+                        url: '/api/employees/' + userId,
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json"
+                    }).done(function (data) {
+                        swal({
+                            title: "Poof!", text: "Your data has been deleted!", type:
+                                "success"
+                        }).then(function () {
+                            location.reload();
+                        }
+                        );
+                    });
+
+                } else {
+                    swal("Your data is safe!");
+                }
+            });
+    };
+
+</script>
