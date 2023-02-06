@@ -59,7 +59,7 @@ namespace EmployeeManagementSystem.Repositories
 
         public List<EmployeeReadDto> Search(string query)
         {
-            var result = _dbContext.Employees.Where(x => x.Name.ToLower().Contains(query.ToLower()) && !x.IsDeleted).ToList();
+            var result = _dbContext.Employees.Where(x => x.Name.ToLower().Contains(query.ToLower()) || x.Email.ToLower().Contains(query.ToLower()) || x.Department.ToLower().Contains(query.ToLower()) && !x.IsDeleted).ToList();
             return _mapper.Map<List<EmployeeReadDto>>(result);
         }
 
