@@ -8,14 +8,12 @@ namespace EmployeeManagementSystem.Controllers
     public class EmployeesController : Controller
     {
 
-        // GET: Employees
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             return View();
         }
 
-        // GET: Employees/Details/5
-        public async Task<IActionResult> Details(Guid? id)
+        public IActionResult Details(Guid? id)
         {
             if (id == null)
             {
@@ -25,14 +23,12 @@ namespace EmployeeManagementSystem.Controllers
             return View();
         }
 
-        // GET: Employees/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // GET: Employees/Edit/5
-        public async Task<IActionResult> Edit(Guid? id)
+        public IActionResult Edit(Guid? id)
         {
             if (id == null)
             {
@@ -41,8 +37,7 @@ namespace EmployeeManagementSystem.Controllers
 
             return View();
         }
-        // GET: Employees/Delete/5
-        public async Task<IActionResult> Delete(Guid? id)
+        public  IActionResult Delete(Guid? id)
         {
             if (id == null)
             {

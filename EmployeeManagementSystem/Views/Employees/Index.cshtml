@@ -74,7 +74,15 @@
         "ajax": {
             "url": "/api/employees",
             "type": "GET",
-            "datatype": "json"
+            "datatype": "json",
+            error: function (xhr, error, code) {
+                swal({
+                    title: "Ah!", text: "You need to login/register first.", type:
+                        "success"
+                }).then(function () {
+                    window.location.href = "/Identity/Account/Register";
+                });
+            }
         },
         "columns": [
             { "data": "name", "name": "Name", "autoWidth": true },
